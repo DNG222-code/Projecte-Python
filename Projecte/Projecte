@@ -110,6 +110,9 @@ def juego_2D():
 #Amb aquesta funció es lleva el joc.
     pygame.quit()
 
+def clases():
+    
+
 #Estructura de una funció de bucle per a 
 a = True
 while a:
