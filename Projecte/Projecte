@@ -1,7 +1,8 @@
-#Importam llibreries per als nombres aleatoris i per al joc.
+# Importem llibreries per als nombres aleatoris i per al joc.
 import random
 import pygame
-#Una funció per al menu principal.
+
+# Una funció per al menú principal.
 def menu():
     print("""
             0. Sortir
@@ -12,38 +13,42 @@ def menu():
     """)
     a = int(input("Introdueix un número de selecció: "))
     return a
-#Programa dels nombres aleatoris.
+
+# Programa dels nombres aleatoris.
 def aleatori():
     l = []
-    #Dona 50 nombres del 1 al 100.
+    # Dona 50 nombres del 1 al 100.
     for i in range(1, 50):
         x = random.randint(1, 100)
         l.append(x)
     print(l)
-#Programa de fer lliestes amb les lletres que fica el usuari i una opció per a les vegades que vulguis.
+
+# Programa de fer llistes amb les lletres que introdueix l'usuari i una opció per a les vegades que vulguis.
 def lletres():
     l = []
-    count = int(input("¿Cuantas vegaes vols introduir una lletra/paraula?: "))
+    count = int(input("¿Quantes vegades vols introduir una lletra/paraula?: "))
     for i in range(count):
         x = input("Introdueix una lletra/paraula: ")
         l.append(x)
     print(l)
-#Funció completa dels joc en 2D.
+
+# Funció completa del joc en 2D.
 def juego_2D():
-    #Funció per a iniciar el joc.
+    # Funció per a iniciar el joc.
     pygame.init()
-    #Mida de la pantalla del joc.
+    # Mida de la pantalla del joc.
     width = 800
     height = 600
-    #Color del escenari del joc.
+    # Color de l'escenari del joc.
     negro = (0, 0, 0)
     blanco = (255, 255, 255)
-    #Funció per a la pantalla on el usuari juga.
+    # Funció per a la pantalla on l'usuari juga.
     pantalla = pygame.display.set_mode((width, height))
     pygame.display.set_caption("Juego 2D")
 
     clock = pygame.time.Clock()
-#Definició de una clase per al jugador que empres.
+
+    # Definició de una classe per al jugador que utilitzarem.
     class Player(pygame.sprite.Sprite):
         def __init__(self):
             super().__init__()
@@ -52,7 +57,8 @@ def juego_2D():
             self.rect = self.image.get_rect()
             self.rect.x = width // 2
             self.rect.y = height - 70
-#Funció per als controls del jugador.
+
+        # Funció per als controls del jugador.
         def update(self):
             keys = pygame.key.get_pressed()
             if keys[pygame.K_LEFT]:
@@ -64,7 +70,8 @@ def juego_2D():
                 self.rect.x = 0
             if self.rect.x > width - 50:
                 self.rect.x = width - 50
-#Una clase per a crear les figures enemigues del joc.
+
+    # Una classe per a crear les figures enemigues del joc.
     class Obstacle(pygame.sprite.Sprite):
         def __init__(self):
             super().__init__()
@@ -73,25 +80,28 @@ def juego_2D():
             self.rect = self.image.get_rect()
             self.rect.x = random.randint(0, width - self.rect.width)
             self.rect.y = -self.rect.height
-#Funció per a que els blocs enemigs surtin de una forma diferente, quan tornis a jugar.
+
+        # Funció per a què els blocs enemics surtin de forma diferent cada vegada que es juga.
         def update(self):
             self.rect.y += 3
             if self.rect.y > height:
                 self.rect.x = random.randint(0, width - self.rect.width)
                 self.rect.y = -self.rect.height
-#Variables per als obtacles i per a que s'agrupin.
+
     all_sprites = pygame.sprite.Group()
     obstacles = pygame.sprite.Group()
 
     player = Player()
     all_sprites.add(player)
-#Un bucle per a que aranqui el joc fins a que et moris.
+
+    # Un bucle per a que comenci el joc fins que el jugador mori.
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-#Funció per a obstacles aleatoris del 0 al 100.
+
+        # Funció per a generar obstacles aleatoris del 0 al 100.
         if random.randint(0, 100) < 2:
             obstacle = Obstacle()
             all_sprites.add(obstacle)
@@ -107,13 +117,94 @@ def juego_2D():
         pygame.display.flip()
 
         clock.tick(60)
-#Amb aquesta funció es lleva el joc.
+
+    # Es tanca el joc amb aquesta funció.
     pygame.quit()
-
+#Funció de les clases
 def clases():
-    
+    print("Clases dels moviments")
+    class Persona():
+        def __init__(self, cames, servei):
+            self.cames = cames
+            self.servei = servei
 
-#Estructura de una funció de bucle per a 
+        def xerrar(self):
+            pass
+
+        def mourem(self):
+            pass
+
+        def quisoc(self):
+            print("Sóc una persona.")
+
+    class Cotxe(Persona):
+        def xerrar(self):
+            print("El so que em caracteritza és: Vroom vroom!")
+
+        def mourem(self):
+            print("Em moc conduint!")
+
+    class Camio(Persona):
+        def xerrar(self):
+            print("El so que em caracteritza és: Beeeep beep!")
+
+        def mourem(self):
+            print("Em moc transportant mercaderies.")
+
+    class Moto(Persona):
+        def xerrar(self):
+            print("El so que em caracteritza és: Rrrrrrrr!")
+
+        def mourem(self):
+            print("Em moc conduint a tota velocitat!")
+
+    class PersonaNormal(Persona):
+        def __init__(self, nom):
+            super().__init__(2, "Vida normal")
+            self.nom = nom
+
+        def xerrar(self):
+            print("El so que em caracteritza és: ¡Hola!")
+
+        def mourem(self):
+            print("Em moc caminant com una persona normal.")
+
+        def quisoc(self):
+            print("Sóc una persona normal i em dic {}".format(self.nom))
+
+    class Conductors(Persona):
+        def __init__(self, nom, llicencia):
+            super().__init__(2, "Conductor")
+            self.nom = nom
+            self.llicencia = llicencia
+
+        def xerrar(self):
+            print("El so que em caracteritza és: Honk honk!")
+
+        def mourem(self):
+            print("Em moc conduint un vehicle.")
+
+        def quisoc(self):
+            print("Sóc un conductor amb llicència {} i em dic {}".format(self.llicencia, self.nom))
+
+    coches = [
+        PersonaNormal("Carla"),
+        Cotxe(4, "Personal"),
+        Camio(6, "Transport"),
+        Moto(2, "Divertiment"),
+        Conductors("Marc", "B")
+    ]
+
+    for coche in coches:
+        coche.quisoc()
+        coche.mourem()
+        coche.xerrar()
+
+    if isinstance(coche, Conductors):
+        print("Llicència de conduir: {}".format(coche.llicencia))
+
+ 
+# Estructura d'un bucle de funció per al programa principal.
 a = True
 while a:
     a = menu()
@@ -124,8 +215,7 @@ while a:
     elif a == 3:
         juego_2D()
     elif a == 4:
-        
-        pass
+        clases()
     elif a == 0:
         a = False
         print("Adéu, ara sortirem de l'app")
